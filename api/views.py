@@ -1,9 +1,11 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.decorators import api_view
+from tasks.models import Tasks
+from .serializers import TasksSerializers
 
 @api_view(['GET'])
-@permission_classes([])
+#@permission_classes([])
 def getTasks(request):
-    user = {'name': 'Samir', 'age': 32, 'Task': 'Wash a car'}
-    return Response(user)
+    tasks = Tasks.objects.all()
+    serializers = TasksSerializers(tasks, many=True)
+    return Response(serializers.data)
