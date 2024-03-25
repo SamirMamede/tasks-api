@@ -4,8 +4,14 @@ from tasks.models import Tasks
 from .serializers import TasksSerializers
 
 @api_view(['GET'])
-#@permission_classes([])
 def getTasks(request):
-    tasks = Tasks.objects.all()
-    serializers = TasksSerializers(tasks, many=True)
-    return Response(serializers.data)
+    task = Tasks.objects.all()
+    serializer = TasksSerializers(task, many=True)
+    return Response(serializer.data)
+
+@api_view(['POST'])
+def addTasks(request):
+    serializer = TasksSerializers(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)
