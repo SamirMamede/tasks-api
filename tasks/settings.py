@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'api',
     'tasks',
-    'drf_yasg'
+    'drf_yasg',
+    'tests'
 ]
 
 MIDDLEWARE = [
