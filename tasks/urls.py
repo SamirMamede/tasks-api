@@ -27,7 +27,7 @@ schema_view = get_schema_view(
         title="InovaTask API Documentation",
         default_version='v1',
         description="API Documentation for your project",
-        contact=openapi.Contact(email="anuarsamir@gmail.com"),
+        contact=openapi.Contact(email="https://wa.me/5592992422202?text=Hello+World%21+"),
     ),
     public=True,
 )
