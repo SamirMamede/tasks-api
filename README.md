@@ -4,22 +4,22 @@ This is a simple API for managing tasks. It allows you to create, list, update a
 
 1. Install dependencies:
 
-'''
+```
 pip install -r requirements.txt
-'''
+```
 
 
 2. Run Django migrations:
 
-'''
+```
 python manage.py migrate
-'''
+```
 
 3. Start the server:
 
-'''
+```
 python manage.py runserver
-'''
+```
 
 ## Use
 
