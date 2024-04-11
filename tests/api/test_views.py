@@ -6,8 +6,8 @@ from tasks.models import Tasks
 class TasksViewsTestCase(TestCase):
     def setUp(self):
         self.client = APIClient()
-        self.task1 = Tasks.objects.create(task="Tarefa 1")
-        self.task2 = Tasks.objects.create(task="Tarefa 2")
+        self.task1 = Tasks.objects.create(task="Task 1")
+        self.task2 = Tasks.objects.create(task="Task 2")
 
     def test_get_tasks(self):
         response = self.client.get('/api/tasks/')
@@ -21,12 +21,12 @@ class TasksViewsTestCase(TestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_add_tasks(self):
-        data = {'task': 'Nova Tarefa'}
+        data = {'task': 'New Task'}
         response = self.client.post('/api/tasks/', data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_update_task(self):
-        data = {'task': 'Tarefa Atualizada'}
+        data = {'task': 'Task Update'}
         response = self.client.put(f'/api/task/{self.task1.pk}/', data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
