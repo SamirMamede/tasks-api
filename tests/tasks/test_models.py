@@ -1,4 +1,6 @@
 from django.test import TestCase
+from django.core.exceptions import ValidationError
+from django.utils.timezone import make_aware
 from datetime import datetime
 from tasks.models import Tasks
 
@@ -11,12 +13,13 @@ class TasksModelTestCase(TestCase):
         self.assertIsInstance(self.task.created, datetime)
 
     def test_validate_field_task(self):
-        with self.assertRaises(Exception):
-            Tasks.objects.create()
+        with self.assertRaises(ValidationError):
+            Tasks.objects.create(task="New task")
 
     def test_date_created(self):
         now = datetime.now()
-        self.assertLess(self.task.created, now)
+        now_aware = make_aware(now)
+        self.assertLess(self.task.created, now_aware)
 
     def test_update_task(self):
         self.task.task = "Update task"

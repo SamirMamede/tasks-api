@@ -10,32 +10,32 @@ class TasksViewsTestCase(TestCase):
         self.task2 = Tasks.objects.create(task="Task 2")
 
     def test_get_tasks(self):
-        response = self.client.get('/api/tasks/')
+        response = self.client.get('')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 2)  
     def test_get_task(self):
-        response = self.client.get(f'/api/task/{self.task1.pk}/')
+        response = self.client.get(f'tasks/{self.task1.pk}/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        response = self.client.get('/api/task/999/')  
+        response = self.client.get('tasks/999/')  
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_add_tasks(self):
         data = {'task': 'New Task'}
-        response = self.client.post('/api/tasks/', data)
+        response = self.client.post('/tasks/add/', data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_update_task(self):
         data = {'task': 'Task Update'}
-        response = self.client.put(f'/api/task/{self.task1.pk}/', data)
+        response = self.client.put(f'tasks/{self.task1.pk}/update', data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        response = self.client.put('/api/task/999/', data)  
+        response = self.client.put('/tasks/999/update', data)  
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_delete_task(self):
-        response = self.client.delete(f'/api/task/{self.task1.pk}/')
+        response = self.client.delete(f'/tasks/{self.task1.pk}/delete')
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
-        response = self.client.delete('/api/task/999/')  
+        response = self.client.delete('/tasks/999/delete')  
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
