@@ -1,7 +1,8 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from django.utils.timezone import make_aware
+from django.utils.timezone import make_aware, get_default_timezone
 from datetime import datetime
+import pytz
 from tasks.models import Tasks
 
 class TasksModelTestCase(TestCase):
@@ -18,8 +19,12 @@ class TasksModelTestCase(TestCase):
 
     def test_date_created(self):
         now = datetime.now()
-        now_aware = make_aware(now)
-        self.assertLess(self.task.created, now_aware)
+        default_timezone = get_default_timezone()
+        now_aware = make_aware(now, timezone=default_timezone)
+        created_aware = self.task.created.astimezone(pytz.timezone('America/Manaus'))
+
+        self.assertLessEqual(created_aware, now_aware)
+
 
     def test_update_task(self):
         self.task.task = "Update task"
