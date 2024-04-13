@@ -15,7 +15,7 @@ class TasksViewsTestCase(TestCase):
         self.assertEqual(len(response.data), 2)
           
     def test_getTask(self):
-        response = self.client.get(f'tasks/{self.task1.pk}/')
+        response = self.client.get(f'tasks/1/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         response = self.client.get('tasks/999/')  
