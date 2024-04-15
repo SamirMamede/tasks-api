@@ -25,6 +25,7 @@ class TasksViewsTestCase(TestCase):
         data = {'task': 'New Task'}
         response = self.client.post('/tasks/add', data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data.get('task'), 'New Task')
 
     def test_update_task(self):
         data = {'task': 'Task Update'}
