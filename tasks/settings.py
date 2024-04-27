@@ -17,11 +17,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_swagger',
-    'api',
-    'tasks',
-    'drf_yasg',
-    'tests',
     'rest_framework_simplejwt',
+    'drf_yasg',
+    'api',
+    'authentication',
+    'tasks',
+    'tests',
+    
 ]
 
 MIDDLEWARE = [
