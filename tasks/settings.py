@@ -21,7 +21,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'drf_yasg',
     'api',
-    'authentication',
+    'registration',
     'tasks',
     'tests',
     

@@ -1,5 +1,7 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 from tasks.models import Tasks
 from .serializers import TasksSerializers
 from rest_framework import status
@@ -28,6 +30,8 @@ def getTasks(request):
     }
 )
 @api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def getTask(request, pk):
     try:
         task = Tasks.objects.get(pk=pk)
@@ -46,6 +50,8 @@ def getTask(request, pk):
     }
 )
 @api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def addTasks(request):
     if request.method == 'POST':
         serializer = TasksSerializers(data=request.data)
@@ -64,6 +70,8 @@ def addTasks(request):
     }
 )
 @api_view(['PUT'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def updateTask(request, pk):
     try:
         task = Tasks.objects.get(pk=pk)
@@ -86,6 +94,8 @@ def updateTask(request, pk):
     }
 )
 @api_view(['DELETE'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def deleteTask(request, pk):
     try:
         task = Tasks.objects.get(pk=pk)
