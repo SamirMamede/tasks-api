@@ -30,8 +30,6 @@ def getTasks(request):
     }
 )
 @api_view(['GET'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
 def getTask(request, pk):
     try:
         task = Tasks.objects.get(pk=pk)
@@ -50,8 +48,6 @@ def getTask(request, pk):
     }
 )
 @api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
 def addTasks(request):
     if request.method == 'POST':
         serializer = TasksSerializers(data=request.data)
