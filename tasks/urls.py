@@ -15,7 +15,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('', include('api.urls')),
-    path('registration', include('registration.urls')),
+    path('', include('registration.urls')),
     path('auth/api/token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
     path('auth/api/token/verify', TokenVerifyView.as_view(), name='token_verify'),
