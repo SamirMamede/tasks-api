@@ -1,6 +1,5 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.authentication import TokenAuthentication
 from tasks.models import Tasks
 from .serializers import TasksSerializers
@@ -67,7 +66,6 @@ def addTasks(request):
 )
 @api_view(['PUT'])
 @authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
 def updateTask(request, pk):
     try:
         task = Tasks.objects.get(pk=pk)
@@ -91,13 +89,11 @@ def updateTask(request, pk):
 )
 @api_view(['DELETE'])
 @authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
 def deleteTask(request, pk):
     try:
         task = Tasks.objects.get(pk=pk)
     except Tasks.DoesNotExist:
         return Response({'detail': 'Task not found.'}, status=status.HTTP_404_NOT_FOUND)
-    
     if request.method == 'DELETE':
         task.delete()
         return Response({'detail': 'Task deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
