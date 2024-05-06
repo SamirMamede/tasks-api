@@ -1,5 +1,6 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, authentication_classes
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.authentication import TokenAuthentication
 from tasks.models import Tasks
 from .serializers import TasksSerializers
@@ -15,6 +16,7 @@ from drf_yasg.utils import swagger_auto_schema
     }
 )
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def getTasks(request):
     task = Tasks.objects.all()
     serializer = TasksSerializers(task, many=True)
@@ -29,6 +31,7 @@ def getTasks(request):
     }
 )
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def getTask(request, pk):
     try:
         task = Tasks.objects.get(pk=pk)
@@ -47,6 +50,7 @@ def getTask(request, pk):
     }
 )
 @api_view(['POST'])
+@authentication_classes([TokenAuthentication])
 def addTasks(request):
     if request.method == 'POST':
         serializer = TasksSerializers(data=request.data)

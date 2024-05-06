@@ -16,6 +16,7 @@ from drf_yasg.utils import swagger_auto_schema
     }
 )
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def getUsers(request):
     user = Users.objects.all()
     serializer = UserSerializer(user, many=True)
@@ -46,22 +47,3 @@ def registerUser(request):
 
             return Response({'user': serializer.data, 'access_token': access_token}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-
-@swagger_auto_schema(
-    method='DELETE',
-    operation_summary='Delete a user by ID',
-    responses={
-        204: 'If the user is successfully deleted',
-        404: 'If the user is not found'
-    }
-)
-@api_view(['DELETE'])
-def deleteUser(request, pk):
-    try:
-        user = Users.objects.get(pk=pk)
-    except Users.DoesNotExist:
-        return Response({'detail': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
-    if request.method == 'DELETE':
-        user.delete()
-        return Response({'detail': 'User deleted successfully.'}, status=status.HTTP_204_NO_CONTENT)
