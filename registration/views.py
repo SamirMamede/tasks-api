@@ -1,8 +1,9 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
 from rest_framework import status
 from tasks.models import Users
-from .serializers import UserSerializer
+from .serializers import UserSerializer, CustomTokenObtainPairSerializer
+from rest_framework.permissions import AllowAny
+from rest_framework.decorators import api_view, permission_classes
 from django.contrib.auth.hashers import make_password
 from drf_yasg.utils import swagger_auto_schema
 
@@ -29,6 +30,7 @@ def getUsers(request):
     }
 )
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def registerUser(request):
     if request.method == 'POST':
         serializer = UserSerializer(data=request.data)
@@ -36,7 +38,13 @@ def registerUser(request):
             encrypted_password = make_password(serializer.validated_data['password'])
             serializer.validated_data['password'] = encrypted_password
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+            # Generate tokens
+            token_serializer = CustomTokenObtainPairSerializer(data=request.data)
+            token_serializer.is_valid(raise_exception=True)
+            access_token = token_serializer.validated_data['access']
+
+            return Response({'user': serializer.data, 'access_token': access_token}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
