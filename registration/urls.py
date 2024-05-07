@@ -1,7 +1,9 @@
-from django.urls import path
-from . import views
+from django.contrib import admin
+from django.urls import path, include
+from .views import UserCreate
 
 urlpatterns = [
-    path('users/', views.getUsers, name='get_all_users'),
-    path('registration/', views.registerUser, name='register_new_user'),
+    path('admin/', admin.site.urls),
+    path("registration/", UserCreate.as_view()),
+    path('api-auth/', include("rest_framework.urls")),
 ]
